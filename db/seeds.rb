@@ -15,7 +15,9 @@ include RandomData
      body: RandomData.random_paragraph
    )
  end
- 
+
+ Post.find_or_create_by(title: "Patricia is looking for a Unique Post Title!", body: "Patricia is looking for a Unique Post Body")
+
  puts "Seed finished"
  puts "#{Post.count} posts created"
  puts "#{Comment.count} comments created"
