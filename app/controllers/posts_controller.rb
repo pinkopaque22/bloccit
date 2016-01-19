@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     @posts = Post.all
     @posts.each_with_index do |post, index|
       if index % 5 == 0
-        post.title = "Spam"
+        post.title = "Spammerz"
       end
     end
   end
