@@ -3,7 +3,7 @@ include RandomData
 
 RSpec.describe AdvertisementController, type: :controller do
   let(:my_ad) do
-    Adevertisement.create(
+    Advertisement.create(
       id: 1,
       title: RandomData.random_sentence,
       copy:  RandomData.random_paragraph,
@@ -15,7 +15,7 @@ RSpec.describe AdvertisementController, type: :controller do
       get :index
       expect(response).to have_http_status(:success)
     end
-    it "assigns [my_ad] to @advertisements" do
+    it "assigns[my_ad] to @advertisements" do
       get :index
       
       expect(assigns(:advertisements)).to eq([my_ad])
