@@ -2,8 +2,8 @@ Rails.application.routes.draw do
  resources :advertisements
  resources :posts
 
+  get 'about' => 'welcome#about'
+ 
 
-  get 'advertisement' => 'advertisement#about'
-
-  root 'advertisement#index'
+  root 'welcome#index'
 end
