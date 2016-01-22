@@ -4,7 +4,7 @@ class AdvertisementsController < ApplicationController
   end
 
   def show
-    @advertisement = Advertisement.find(params[:id])
+    @advertisements = Advertisement.find(params[:id])
   end
 
   def new
