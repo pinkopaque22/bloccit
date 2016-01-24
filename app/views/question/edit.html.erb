@@ -1,2 +1,30 @@
-<h1>Question#edit</h1>
-<p>Find me in app/views/question/edit.html.erb</p>
+<h1>Edit Question</h1>
+<div class="row">
+    <div class="col-md-4">
+        <p>Question Guidlines</p>
+        <ul>
+            <li>Make Sure It Rhymes</li>
+            <li>Don't Use The Letter "A"</li>
+            <li>The Incessant Use Of Hashtags Will Get You Banned</li>
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <%= form_for @question do |f| %>
+        <div class="form-group">
+            <%= f.label :title %>
+            <%= f.text_field :title, class: 'form-control', placeholder: "Enter Question Title" %>
+        </div>
+        <div class="form-group">
+            <%= f.label :body %>
+            <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter Question Body" %>
+        </div>
+        <div class="form-group">
+            <%= f.label :resolved %>
+            <%= f.check_box :resolved %>
+        </div>
+        <div class="form-group">
+            <%= f.submit "Save", class: 'btn btn-success' %>
+        </div>
+    </div>
+    <% end %>
+</div>
