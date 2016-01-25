@@ -89,10 +89,6 @@ RSpec.describe PostsController, type: :controller do
        count = Post.where({id: my_post.id}).size
        expect(count).to eq 0
      end
-     it "redirects to posts index" do
-       delete :destroy, {id: my_post.id}
-       expect(response).to redirect_to posts_path
-     end
      it "redirects to topic show" do
        delete :destroy, topic_id: my_topic.id, id: my_post.id
        expect(response).to redirect_to my_topic
