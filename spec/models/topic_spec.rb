@@ -14,6 +14,7 @@ RSpec.describe Topic, type: :model do
         expect(topic).to respond_to(:public)
       end
       #it "should be public by default" do
+          #only expect(true).to be (true) will pass this test. 
         #expect(topic.public).to be(true)
       #end
     end
