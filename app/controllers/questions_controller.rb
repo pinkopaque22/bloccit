@@ -1,6 +1,6 @@
-class QuestionController < ApplicationController
+class QuestionsController < ApplicationController
    def index
-     @question = Question.all
+     @questions = Question.all
    end
   
    def show
@@ -15,7 +15,7 @@ class QuestionController < ApplicationController
      @question = Question.new(params.require(:question).permit(:title, :body, :resolved))
       if @question.save
         flash[:notice] = "Your Question was saved"
-        redirect_to@question
+        redirect_to @question
       else
         flash[:error] = "Your question was not saved. Please try again"
         render :new
@@ -27,7 +27,7 @@ class QuestionController < ApplicationController
    end
 
    def update
-    @question = Question.find(params[:id])
+     @question = Question.find(params[:id])
       if @question.update_attributes(params.require(:question).permit(:title, :body, :resolved))
         flash[:notice] = "Your Question was updated"
         redirect_to @question
@@ -39,8 +39,11 @@ class QuestionController < ApplicationController
    
    def destroy
      @question = Question.find(params[:id])
-      if @question.destroy = "\"#{@question.title}\"was certainly deleted sucessfully"
-      else flash[:error] = "Your question was not deleted. Please try again"
+      if @question.destroy 
+       flash[:notice] = "\"#{@question.title}\"was certainly deleted sucessfully"
+       redirect_to action:"index"
+      else 
+       flash[:error] = "Your question was not deleted. Please try again"
        render :show
       end
    end

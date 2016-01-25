@@ -1,7 +1,7 @@
 require 'rails_helper'
 include RandomData
 
-RSpec.describe QuestionController, type: :controller do
+RSpec.describe QuestionsController, type: :controller do
 let(:my_question) do
     Question.create(
      id: 1,
@@ -17,7 +17,7 @@ end
     end
     it "assigns my_question to @question" do
        get :index
-      expect(assigns(:question)).to eq([my_question])
+      expect(assigns(:questions)).to eq([my_question])
     end
   end
   describe "GET show" do
@@ -80,8 +80,8 @@ end
       
       updated_question = assigns(:question)
       expect(updated_question.id).to eq my_question.id
-      expect(updated_question.id).to eq new_title
-      expect(updated_question.id).to eq new_body
+      expect(updated_question.title).to eq new_title
+      expect(updated_question.body).to eq new_body
     end
     it "redirects to the updated question" do
       new_title = RandomData.random_sentence

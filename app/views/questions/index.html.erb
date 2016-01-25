@@ -1,9 +1,9 @@
 <h1>All the Questions Everywhere</h1>
-<% @question.each do |question| %>
+<% @questions.each do |question| %>
 <div class="media">
     <div class-="media-body">
         <h4 class="media-heading">
-            <% link_to question.title, question %>
+            <%= link_to question.title, question %>
         </h4>
     </div>
 </div>
