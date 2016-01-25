@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
-  def index
-    @posts = Post.all
-  end
+  #comment this method out when nesting to have topics redirect to show, not index
+  #def index
+    #@posts = Post.all
+  #end
   def show
     @post = Post.find(params[:id])
   end
