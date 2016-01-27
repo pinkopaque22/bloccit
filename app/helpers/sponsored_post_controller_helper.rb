@@ -1,0 +1,2 @@
+module SponsoredPostControllerHelper
+end
