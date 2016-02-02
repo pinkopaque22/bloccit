@@ -1,2 +1,15 @@
-<h1>SponsoredPostsController#show</h1>
-<p>Find me in app/views/sponsored_post_controller/show.html.erb</p>
+<h1><%= @sponsored_post.title %></h1>
+ 
+ <%= link_to "Edit Sponsored Post", edit_topic_sponsored_post_path(@sponsored_post.topic,@sponsored_post), class: 'btn btn-success' %>
+
+ 
+ <div class="row">
+   <div class="col-md-8">
+     <p class="lead"><%= @sponsored_post.body %></p>
+     <%= @sponsored_post.price %>
+      
+   
+   </div>
+ </div>
+ 
+ 

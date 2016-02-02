@@ -3,7 +3,7 @@ class CreateSponsoredPosts < ActiveRecord::Migration
     create_table :sponsored_posts do |t|
       t.string :title
       t.text :body
-      t.integer :price
+      t.integer :price 
       t.references :topic, index: true, foreign_key: true
 
       t.timestamps null: false
