@@ -22,6 +22,7 @@ class SponsoredPostsController < ApplicationController
 
      if @sponsored_post.save
         flash[:notice] = "Sponsored Post was updated."
+        redirect_to @sponsored_post.topic, notice: "Sponsored Post was saved."
        
      else
        flash.now[:alert] = "Error saving Sponsored Post. Please try again."
@@ -44,7 +45,7 @@ class SponsoredPostsController < ApplicationController
   end
   
   def destroy
-     @sponsored_post.topic = Topic.find(params[:topic_id])
+     @sponsored_post.topic = Topic.find(params[:topic_id][sponsored_post])
  
      if @sponsored_post.destroy
        flash[:notice] = "\"#{@sponsored_post.title}\" was deleted successfully."
