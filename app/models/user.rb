@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
 
    has_secure_password
-
+#why can't I chain the join, split and capitalize ?
   def format_name
       if name
           name_array = []
