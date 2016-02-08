@@ -3,8 +3,15 @@ Rails.application.routes.draw do
    resources :posts, except: [:index]
  end
 
-  get 'about' => 'welcome#about'
  resources :users, only: [:new, :create]
+ post 'users/confirm' => 'users#confirm'
+ get 'about' => 'welcome#about'
 
-  root 'welcome#index'
+ root to: 'welcome#index'
 end
+
+
+
+
+
+#The route should be a POST to 'users/confirm' and point to users#confirm.
