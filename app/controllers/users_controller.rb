@@ -11,6 +11,7 @@ class UsersController < ApplicationController
         
         if @user.save
             flash[:notice] = "Welcome to Bloccit by COF #{@user.name}!"
+            create_session(@user)
             redirect_to root_path
         else flash.now[:alert] = "Error creating account, no worries just try again, we'll wait."
             render :new
