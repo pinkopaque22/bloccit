@@ -20,6 +20,8 @@ class PostsController < ApplicationController
        flash[:notice] = "Your post was saved."
        redirect_to [@topic, @post]
     else
+             logger.info "THERE WAS AN ERROR@@@@@@@@@"
+        logger.info @post.inspect
        flash.now[:alert] = "There was an error saving your post. Please try again."
        render :new
     end
@@ -37,6 +39,8 @@ class PostsController < ApplicationController
         redirect_to [@post.topic, @post]
      else
         flash.now[:alert] = "There was an error saving the post. Please try again."
+        logger.info "THERE WAS AN ERROR@@@@@@@@@"
+        logger.info @post.inspect
         render :edit
      end
   end
