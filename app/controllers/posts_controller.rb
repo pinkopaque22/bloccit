@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   #def index
     #@posts = Post.all
   #end
+  before_action :require_sign_in, except: :show
   def show
     @post = Post.find(params[:id])
   end
@@ -20,8 +21,8 @@ class PostsController < ApplicationController
        flash[:notice] = "Your post was saved."
        redirect_to [@topic, @post]
     else
-             logger.info "THERE WAS AN ERROR@@@@@@@@@"
-        logger.info @post.inspect
+        #logger.info "THERE WAS AN ERROR@@@@@@@@@"
+        #logger.info @post.inspect
        flash.now[:alert] = "There was an error saving your post. Please try again."
        render :new
     end
