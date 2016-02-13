@@ -140,5 +140,5 @@ context "signed-in user" do
        expect(response).to redirect_to my_topic
      end
   end
-end
+ end
 end
