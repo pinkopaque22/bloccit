@@ -45,6 +45,7 @@ context "guest user" do
     end
   end
 end
+
 context "signed-in user" do
      before do
        create_session(my_user)
