@@ -36,6 +36,9 @@ RSpec.describe User, type: :model do
        it "responds to member?" do
          expect(user).to respond_to(:member?)
        end
+       it "responds to mod?" do
+         expect(user).to respond_to(:mod?)
+       end
     end
     describe "roles" do
         it "is member by default" do
@@ -60,6 +63,20 @@ RSpec.describe User, type: :model do
          expect(user.admin?).to be_truthy
         end
       end
+      context "mod user" do
+       before do
+         user.mod!
+       end
+        it "returns false for #member?" do
+         expect(user.member?).to be_falsey
+        end
+        it "returns false for #admin?" do
+         expect(user.admin?).to be_falsey
+        end
+        it "returns true for #mod?" do
+         expect(user.mod?).to be_truthy
+        end
+      end 
     end
     describe "invalid user" do
         let(:user_with_invalid_name) { User.new(name: "", email: "user@bloccit.com") }
