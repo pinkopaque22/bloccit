@@ -2,8 +2,12 @@ require 'rails_helper'
 include RandomData
 RSpec.describe Topic, type: :model do
   let(:topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
-  it { should have_many(:posts) }
-    describe "attributes" do
+  
+      it { is_expected.to have_many(:posts) }
+      it { is_expected.to have_many(:labelings) }
+      it { is_expected.to have_many(:labels).through(:labelings) }
+
+  context "attributes" do
       it "should respond to name" do
         expect(topic).to respond_to(:name)
       end
@@ -17,5 +21,5 @@ RSpec.describe Topic, type: :model do
           #only expect(true).to be (true) will pass this test. 
         #expect(topic.public).to be(true)
       #end
-    end
+  end
 end
