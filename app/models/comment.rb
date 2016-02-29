@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  belongs_to :post
+  belongs_to :posts
   belongs_to :topics
   belongs_to :user
   
