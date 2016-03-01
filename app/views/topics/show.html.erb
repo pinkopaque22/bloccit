@@ -33,3 +33,16 @@
    </div>
    <% end %>
  </div>
+ <div class = "row">
+     <div class="col-md-8">
+      <p>
+       <% @topic.comments.each do |comment| %>
+       <%= render partial: "comments/comment", locals: { comment: comment, commentable: @topic } %>
+       <%end%>
+      </p>
+        
+
+  
+  
+  
+ </div>

@@ -17,7 +17,9 @@
      <p><%= @post.body %></p>
      <div>
        <h3>Comments</h3>
-       <%= render @post.comments %>
+          <% @post.comments.each do |comment| %>
+          <%= render partial: "comments/comment", locals: { comment: comment, commentable: @post } %>     
+          <% end %>
      </div>
      <% if current_user %>
       <%= render 'comments/form', comment: Comment.new, post: @post %>
