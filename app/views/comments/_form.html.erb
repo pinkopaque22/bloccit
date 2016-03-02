@@ -6,3 +6,18 @@
    </div>
    <%= f.submit "Submit Comment", class: 'btn btn-default pull-right' %>
  <% end %>
+   <%= form_for :current_user, url: {action: "update", params: { commentable_id: :comment}} do |f| %>
+   <% end %>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<%# change form url, form routes, so this form submits to post_comment or topic_comment. %>
+ 
+ 
+ 
+ 

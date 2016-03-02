@@ -15,7 +15,13 @@ include RandomData
    )
  end
  topics = Topic.all
- 
+ 10.times do
+   Comment.create!(
+     body: RandomData.random_paragraph,
+     commentable_id: topics.sample.id,
+     user: users.sample
+   )
+  end
  50.times do
    Post.create!(
      user:   users.sample,
@@ -29,22 +35,22 @@ posts = Post.all
  100.times do
    Comment.create!(
      user: users.sample,
-     post: posts.sample,
+     commentable_id: posts.sample.id,
      body: RandomData.random_paragraph
    )
  end
  admin = User.create!(
-   name:     'Admin User',
-   email:    'admin@example.com',
-   password: 'helloworld',
-   role:     'admin'
- )
+  name:     'Admin User',
+  email:    'admin@example.com',
+  password: 'helloworld',
+  role:     'admin'
+  )
  member = User.create!(
    name:     'Member User',
    email:    'member@example.com',
    password: 'helloworld'
  )
-
+ 
  puts "Seed finished"
  puts "#{User.count} users created"
  puts "#{Topic.count} topics created"
