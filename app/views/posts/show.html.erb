@@ -30,8 +30,20 @@
    </div>
    <div class="col-md-4">
      <% if user_is_authorized_for_post?(@post) %>
-     <%= link_to "Edit", edit_topic_post_path(@post.topic, @post), class: 'btn btn-success' %>
+     <%= link_to "Edit Post", edit_topic_post_path(@post.topic, @post), class: 'btn btn-success' %>
      <%= link_to "Destroy Post", [@post.topic, @post], method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to destroy your delicious post?'} %>
-   <% end %>
+  </div>
+     <% end %>
+     <div class="col-md-4">
+     <h3>
+       <%= pluralize(@post.points, 'point') %>
+       <div>
+         <small>
+           <%= pluralize(@post.up_votes, 'up vote') %>,
+           <%= pluralize(@post.down_votes, 'down vote') %>
+         </small>
+       </div>
+     </h3>
+   </div>
    </div>
  </div>
