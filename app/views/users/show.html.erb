@@ -1,0 +1,4 @@
+ <small>
+           <%= pluralize(@user.posts.count, 'post') %>,
+           <div class='js-comments-count'><%= pluralize(@user.comments.count, 'comment') %></div>
+ </small>
