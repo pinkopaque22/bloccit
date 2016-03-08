@@ -27,9 +27,7 @@
           <% end %>
      </div>
      <% if current_user %>
-       <div class='new-comment'>
-         <%= render 'comments/form', comment: Comment.new, post: @post %>
-       </div>
+      <%= render 'comments/form', comment: Comment.new, post: @post %>
      <% end %>
    </div>
      <% if user_is_authorized_for_post?(@post) %>
