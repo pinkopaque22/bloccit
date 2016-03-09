@@ -90,7 +90,7 @@ RSpec.describe CommentsController, type: :controller do
          expect{ post :create, format: :js, post_id: my_post.id, comment: {body: RandomData.random_sentence} }.to change(Comment,:count).by(1)
        end
  
-       it "redirects to have HTTP status success" do
+       it "redirects to the post show view" do
          post :create, format: :js, post_id: my_post.id, comment: {body: RandomData.random_sentence}
          expect(response).to have_http_status(:success)
        end
@@ -103,7 +103,7 @@ RSpec.describe CommentsController, type: :controller do
          expect(count).to eq 0
        end
  
-       it "redirects to have HTTP status success" do
+       it "redirects to the post show view" do
          delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
          expect(response).to have_http_status(:success)
        end
