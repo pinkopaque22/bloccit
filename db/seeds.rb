@@ -16,14 +16,14 @@ include RandomData
  end
  topics = Topic.all
  
- 10.times do
+ 100.times do
    Comment.create!(
      body: RandomData.random_paragraph,
-     commentable_id: topics.sample.id,
+     commentable: topics.sample,
      user: users.sample
    )
   end
-  
+
  50.times do
   post = Post.create!(
      user:   users.sample,
@@ -41,18 +41,18 @@ include RandomData
  100.times do
    Comment.create!(
      user: users.sample,
-     commentable_id: posts.sample.id,
+     commentable: posts.sample,
      body: RandomData.random_paragraph
    )
  end
  
- admin = User.create!(
+User.create!(
   name:     'Admin User',
   email:    'admin@example.com',
   password: 'helloworld',
   role:     'admin'
   )
- member = User.create!(
+User.create!(
    name:     'Member User',
    email:    'member@example.com',
    password: 'helloworld'
