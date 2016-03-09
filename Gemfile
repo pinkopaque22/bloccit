@@ -32,3 +32,7 @@ source 'https://rubygems.org'
  gem 'bootstrap-sass'
  # Used for encrypting User passwords
  gem 'bcrypt'
+ #Used to safely store and access sensitive credentials using variables
+ gem 'figaro', '1.0'
+
+ 
