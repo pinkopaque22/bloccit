@@ -46,13 +46,13 @@ include RandomData
    )
  end
  
- admin = User.create!(
+  User.create!(
   name:     'Admin User',
   email:    'admin@example.com',
   password: 'helloworld',
   role:     'admin'
   )
- member = User.create!(
+ User.create!(
    name:     'Member User',
    email:    'member@example.com',
    password: 'helloworld'
