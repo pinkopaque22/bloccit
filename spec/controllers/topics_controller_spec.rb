@@ -3,10 +3,10 @@ include RandomData
 include SessionsHelper
 
 RSpec.describe TopicsController, type: :controller do
- let(:my_topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
- context "mod" do
+  let(:my_topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
+ context "moderator" do
    before do
-      user = User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld", role: :mod)
+      user = User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld", role: :moderator)
       create_session(user)
     end
     describe "GET index" do
@@ -45,9 +45,9 @@ RSpec.describe TopicsController, type: :controller do
         expect(response).to redirect_to(topics_path)
       end
     end
-  #/////////CODE ABOVE FOR MODS WHO CAN UPDATE BUT NOT CREATE OR DELETE EXISTING TOPICS////
-   
- end
+  end
+    #/////////CODE ABOVE FOR MODS WHO CAN UPDATE BUT NOT CREATE OR DELETE EXISTING TOPICS////
+
  context "guest" do
     describe "GET index" do
       it "returns http success" do
