@@ -14,7 +14,9 @@ class CommentsController < ApplicationController
      end
      respond_to do |format|
        format.html
-       format.js
+       format.js {
+         render :text => "FINISHED THE AJAX REQUEST"
+       }
      end
    end
    def destroy
@@ -27,7 +29,9 @@ class CommentsController < ApplicationController
      end
      respond_to do |format|
        format.html
-       format.js
+       format.js {
+         render :text => "FINISHED THE AJAX REQUEST"
+       }
      end
    end
  

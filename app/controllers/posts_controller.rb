@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  #comment this method out when nesting to have topics redirect to show, not index
   before_action :require_sign_in, except: :show
   before_action :authorize_user, except: [:show, :new, :create]
   def index
