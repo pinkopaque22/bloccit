@@ -14,8 +14,9 @@ Rails.application.routes.draw do
  end
   
   get 'about' => 'welcome#about'
- resources :users, only: [:new, :create]
+ resources :users, only: [:new, :create, :show]
  resources :sessions, only: [:new, :create, :destroy]
+ 
 
   root 'welcome#index'
 end
