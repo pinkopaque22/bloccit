@@ -23,7 +23,7 @@ RSpec.describe Comment, type: :model do
      end
      it "sends an email to users who have favorited the post" do
        favorite = user.favorites.create(user: user)
-       expect(FavoriteMailer).to receive(:new_comment).with(favorite.user, commentable, self).and_return(double(deliver_now: true))
+       expect(FavoriteMailer).to receive(:new_comment).with(user, post, @another_comment).and_return(double(deliver_now: true))
        @another_comment.save
      end
      it "does not send emails to users who haven't favorited the post" do

@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
  
    def send_favorite_emails
      commentable.favorites.each do |favorite|
-       FavoriteMailer.new_comment(favorite.user, commentable, self).deliver_now
+       FavoriteMailer.new_comment(user, post, comment).deliver_now
      end
    end
 end

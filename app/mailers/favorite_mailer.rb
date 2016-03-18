@@ -7,7 +7,7 @@ class FavoriteMailer < ApplicationMailer
        headers["References"] = "<post/#{post.id}@your-app-name.example >"
        @user = user
        @post = post
-       @comment = comment 
+       @comment = comment
        mail(to: user.email, subject: "New comment on #{post.title}")
      end
 
