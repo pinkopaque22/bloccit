@@ -48,10 +48,10 @@ class PostsController < ApplicationController
   def destroy
      @post = Post.find(params[:id])
      if @post.destroy
-        flash[:notice] = "\"#{@post.title}\" was deleted successfully."
+        flash[:notice] = "\"#{@post.title}\" was deleted, buh BYE."
         redirect_to @post.topic
      else
-        flash.now[:alert] = "There was an error deleting the post."
+        flash.now[:alert] = "was not deleted, try again."
         render :show
      end
   end
@@ -62,7 +62,7 @@ class PostsController < ApplicationController
    def authorize_user
      post = Post.find(params[:id])
      unless current_user == post.user || current_user.admin?
-       flash[:alert] = "You must be an admin to do that."
+       flash[:alert] = "Only Admins Can Perform That Task."
        redirect_to [post.topic, post]
      end
    end

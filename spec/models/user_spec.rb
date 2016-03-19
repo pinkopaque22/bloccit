@@ -53,15 +53,15 @@ RSpec.describe User, type: :model do
         it "is member by default" do
          expect(user.role).to eql("member")
         end
-      context "member user" do
+ context "member user" do
         it "returns true for #member?" do
          expect(user.member?).to be_truthy
         end
         it "returns false for #admin?" do
          expect(user.admin?).to be_falsey
         end
-      end
-      context "admin user" do
+ end
+ context "admin user" do
        before do
          user.admin!
        end
@@ -71,8 +71,8 @@ RSpec.describe User, type: :model do
         it "returns true for #admin?" do
          expect(user.admin?).to be_truthy
         end
-      end
     end
+ end
     describe "invalid user" do
         let(:user_with_invalid_name) { User.new(name: "", email: "user@bloccit.com") }
         let(:user_with_invalid_email) { User.new(name: "Bloccit User", email: "") }
