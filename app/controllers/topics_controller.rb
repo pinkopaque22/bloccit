@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
  before_action :require_sign_in, except: [:index, :show]
  before_action :authorize_user, except: [:index, :show]
+ before_action :moderator, except: [:index, :show]
     def index 
         @topics = Topic.all
     end
@@ -63,5 +64,11 @@ class TopicsController < ApplicationController
        flash[:alert] = "You must be an admin to do that."
        redirect_to topics_path
      end
+    end
+    def moderator
+     unless current_user.admin?
+       flash[:alert] = "You must be an admin to do that."
+       redirect_to topics_path
+      end
     end
 end

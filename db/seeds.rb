@@ -38,11 +38,11 @@ posts = Post.all
    password: 'helloworld',
    role:     'admin'
  )
- mod = User.create!(
-   name:     'Mod User',
-   email:    'mod@example.com',
+ moderator = User.create!(
+   name:     'Moderator User',
+   email:    'moderator@example.com',
    password: 'helloworld',
-   role:     'mod'
+   role:     'moderator'
  )
  member = User.create!(
    name:     'Member User',

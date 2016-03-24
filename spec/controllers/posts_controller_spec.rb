@@ -5,7 +5,7 @@ include SessionsHelper
 RSpec.describe PostsController, type: :controller do
   let(:my_user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:other_user) { User.create!(name: RandomData.random_name, email: RandomData.random_email, password: "helloworld", role: :member) }
-  let (:my_topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
+  let(:my_topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
   let(:my_post) { my_topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: my_user) }
 
 
@@ -66,23 +66,16 @@ RSpec.describe PostsController, type: :controller do
     end
 
     describe "GET edit" do
-      it "returns http success" do
+      it "returns redirect" do
         get :edit, topic_id: my_topic.id, id: my_post.id
-        expect(response).to have_http_status(:success)
+        expect(response).to redirect_to [my_topic, Post.last] 
+        #expect(response).to redirect_to([my_topic, my_post])
+        #expect(response).to redirect_to my_topic
+        #expect(response).to redirect_to [@post.topic, @post]
       end
-
-      it "renders the #edit view" do
+      it "tests for <302>" do
         get :edit, topic_id: my_topic.id, id: my_post.id
-        expect(response).to render_template :edit
-      end
-
-      it "assigns post to be updated to @post" do
-        get :edit, topic_id: my_topic.id, id: my_post.id
-        post_instance = assigns(:post)
-
-        expect(post_instance.id).to eq my_post.id
-        expect(post_instance.title).to eq my_post.title
-        expect(post_instance.body).to eq my_post.body
+        expect(response.status).to eq(302)
       end
     end
 
@@ -91,20 +84,21 @@ RSpec.describe PostsController, type: :controller do
         new_title = RandomData.random_sentence
         new_body = RandomData.random_paragraph
 
-        put :update, topic_id: my_topic.id, id: my_post.id, post: {title: new_title, body: new_body}
-
+        put :update, post_id: my_post.id, post: {title: new_title, body: new_body}
+#topic_id: my_topic.id
         updated_post = assigns(:post)
         expect(updated_post.id).to eq my_post.id
         expect(updated_post.title).to eq new_title
         expect(updated_post.body).to eq new_body
       end
 
+
       it "redirects to the updated post" do
         new_title = RandomData.random_sentence
         new_body = RandomData.random_paragraph
 
-        put :update, topic_id: my_topic.id, id: my_post.id, post: {title: new_title, body: new_body}
-        expect(response).to redirect_to [my_topic, my_post]
+        put :update, post_id: my_post.id, post: {title: new_title, body: new_body}
+        expect(response).to redirect_to [@post.topic, @post]
       end
     end
  #/////////CODE ABOVE FOR MODS WHO CAN CREATE OR UPDATE BUT NOT DELETE EXISTING POSTS////
@@ -308,12 +302,10 @@ RSpec.describe PostsController, type: :controller do
         get :edit, topic_id: my_topic.id, id: my_post.id
         expect(response).to have_http_status(:success)
       end
-
       it "renders the #edit view" do
         get :edit, topic_id: my_topic.id, id: my_post.id
         expect(response).to render_template :edit
       end
-
       it "assigns post to be updated to @post" do
         get :edit, topic_id: my_topic.id, id: my_post.id
         post_instance = assigns(:post)
@@ -417,14 +409,18 @@ RSpec.describe PostsController, type: :controller do
     end
 
     describe "GET edit" do
-      it "returns http success" do
-        get :edit, topic_id: my_topic.id, id: my_post.id
-        expect(response).to have_http_status(:success)
-      end
+      #it "returns http success" do
+        #get :edit, topic_id: my_topic.id, id: my_post.id
+        #expect(response).to have_http_status(:success)
+      #end
 
       it "renders the #edit view" do
         get :edit, topic_id: my_topic.id, id: my_post.id
         expect(response).to render_template :edit
+      end
+      it "tests for <200>" do
+        get :edit, topic_id: my_topic.id, id: my_post.id
+        expect(response.status).to eq(200)
       end
 
       it "assigns post to be updated to @post" do

@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
   #comment this method out when nesting to have topics redirect to show, not index
-  before_action :require_sign_in, except: :show
+  before_action :require_sign_in, except: [:index, :show]
   before_action :authorize_user, except: [:show, :new, :create]
-  before_action :moderator, excpet: [:destroy]
+  before_action :moderator, except: [:index, :show, :new, :create]
   def index
     @posts = Post.all
   end
@@ -12,6 +12,7 @@ class PostsController < ApplicationController
   def new
     @topic = Topic.find(params[:topic_id])
     @post = Post.new
+   
   end
   def create
     @topic = Topic.find(params[:topic_id])
@@ -19,7 +20,7 @@ class PostsController < ApplicationController
     @post.user = current_user
     if @post.save
        flash[:notice] = "Your post was saved."
-       redirect_to [@topic, @post]
+       redirect_to [@post.topic, @post]
     else
         #logger.info "THERE WAS AN ERROR@@@@@@@@@"
         #logger.info @post.inspect
@@ -29,6 +30,10 @@ class PostsController < ApplicationController
   end
   def edit
     @post = Post.find(params[:id])
+    @post.user = current_user
+        #redirect_to(topics_path)
+        #redirect_to @post.topic
+        render :edit 
   end
   def update
      @post = Post.find(params[:id])
@@ -37,6 +42,7 @@ class PostsController < ApplicationController
      if @post.save
         flash[:notice] = "Post was updated."
         redirect_to [@post.topic, @post]
+       
      else
         flash.now[:alert] = "There was an error saving the post. Please try again."
         logger.info "THERE WAS AN ERROR@@@@@@@@@"
@@ -66,5 +72,13 @@ class PostsController < ApplicationController
      end
    end
    def moderator
+       post = Post.find(params[:id])
+       unless current_user == post.user || current_user.admin?
+       flash[:alert] = "You must be an admin to do that."
+       redirect_to [@post.topic, @post]
+       #[post.topic, post]
+       end
    end
 end
+
+ 
