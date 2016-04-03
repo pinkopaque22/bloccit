@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
   #comment this method out when nesting to have topics redirect to show, not index
   before_action :require_sign_in, except: [:index, :show]
-  before_action :authorize_user, except: [:show, :new, :create]
-  before_action :moderator, except: [:index, :show, :new, :create]
+  before_action :authorize_user, except: [:index, :show, :new, :create]
+  
   def index
     @posts = Post.all
   end
@@ -65,19 +65,16 @@ class PostsController < ApplicationController
      params.require(:post).permit(:title, :body)
    end
    def authorize_user
+       action = params[:action]
      post = Post.find(params[:id])
-     unless current_user == post.user || current_user.admin?
+     unless (action == "edit" || action== "update") && (current_user == post.user || current_user.admin? || current_user.moderator?)
        flash[:alert] = "You must be an admin to do that."
        redirect_to [post.topic, post]
      end
-   end
-   def moderator
-       post = Post.find(params[:id])
-       unless current_user == post.user || current_user.admin?
+     unless action == "destroy" && (current_user == post.user || current_user.admin?)
        flash[:alert] = "You must be an admin to do that."
-       redirect_to [@post.topic, @post]
-       #[post.topic, post]
-       end
+       redirect_to [post.topic, post]
+     end
    end
 end
 
