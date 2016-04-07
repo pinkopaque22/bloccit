@@ -14,7 +14,6 @@ RSpec.describe PostsController, type: :controller do
       other_user.moderator!
       create_session(other_user)
     end
-
     describe "GET show" do
       it "returns http success" do
         get :show, topic_id: my_topic.id, id: my_post.id
@@ -68,10 +67,11 @@ RSpec.describe PostsController, type: :controller do
     describe "GET edit" do
       it "returns redirect" do
         get :edit, topic_id: my_topic.id, id: my_post.id
-        expect(response).to redirect_to [my_topic, Post.last] 
+        #expect(response).to redirect_to [my_topic, Post.last] 
         #expect(response).to redirect_to([my_topic, my_post])
         #expect(response).to redirect_to my_topic
-        #expect(response).to redirect_to [@post.topic, @post]
+        expect(response).to redirect_to [@post.topic, @post]
+        #[@post.topic, @post] 
       end
       it "tests for <302>" do
         get :edit, topic_id: my_topic.id, id: my_post.id
@@ -83,12 +83,12 @@ RSpec.describe PostsController, type: :controller do
       it "updates post with expected attributes" do
         new_title = RandomData.random_sentence
         new_body = RandomData.random_paragraph
- p = Post.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: my_user, topic: my_topic)
+ post = Post.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: my_user, topic: my_topic)
 
-        put :update, topic_id: my_topic.id, id: p.id, post: {title: new_title, body: new_body}
+        put :update, topic_id: my_topic.id, id: post.id, post: {title: new_title, body: new_body}
  puts response.inspect
         updated_post = assigns(:post)
-        #expect(updated_post.id).to eq p
+        expect(updated_post.id).to eq post
         expect(updated_post.title).to eq new_title
         expect(updated_post.body).to eq new_body
       end
@@ -98,7 +98,7 @@ RSpec.describe PostsController, type: :controller do
         new_title = RandomData.random_sentence
         new_body = RandomData.random_paragraph
 
-        put :update, post_id: my_post.id, post: {title: new_title, body: new_body}
+        put :update, {post_id: my_post.id, post: {title: new_title, body: new_body}}
         expect(response).to redirect_to [@post.topic, @post]
       end
     end
@@ -334,8 +334,10 @@ RSpec.describe PostsController, type: :controller do
         new_title = RandomData.random_sentence
         new_body = RandomData.random_paragraph
 
-        put :update, topic_id: my_topic.id, id: my_post.id, post: {title: new_title, body: new_body}
-        expect(response).to redirect_to [my_topic, my_post]
+        #put :update, topic_id: my_topic.id, id: my_post.id, post: {title: new_title, body: new_body}
+        put :update, {post_id: my_post.id, post: {title: new_title, body: new_body}}
+        #expect(response).to redirect_to [my_topic, my_post]
+        expect(response).to redirect_to [@post.topic, @post]
       end
     end
 
@@ -419,9 +421,9 @@ RSpec.describe PostsController, type: :controller do
         get :edit, topic_id: my_topic.id, id: my_post.id
         expect(response).to render_template :edit
       end
-      it "tests for <200>" do
+      it "tests for <302>" do
         get :edit, topic_id: my_topic.id, id: my_post.id
-        expect(response.status).to eq(200)
+        expect(response.status).to eq(302)
       end
 
       it "assigns post to be updated to @post" do

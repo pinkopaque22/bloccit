@@ -9,6 +9,8 @@
        <li>Smile when you type.</li>
      </ul>
    </div>
+   
+   <% if current_user && current_user.moderator? %>
    <div class="col-md-8">
      <%= form_for @topic do |f| %>
        <div class="form-group">
@@ -27,4 +29,5 @@
        <%= f.submit "Save", class: 'btn btn-success' %>
      <% end %>
    </div>
+   <% end %>
  </div>

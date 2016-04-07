@@ -27,6 +27,7 @@ class TopicsController < ApplicationController
     
     def edit
        @topic = Topic.find(params[:id])
+       render :edit
     end
     
     def update
@@ -35,9 +36,9 @@ class TopicsController < ApplicationController
        
      if @topic.save
         flash[:notice] = "Topic was updated."
-       redirect_to @topic
-     else
-       flash.now[:alert] = "Error saving topic. Please try again."
+       #redirect_to @topic
+     # else
+     #   flash.now[:alert] = "Error saving topic. Please try again."
        render :edit
      end
     end
@@ -54,21 +55,22 @@ class TopicsController < ApplicationController
      end
     end
     
-    private
+  private
     def topic_params
      params.require(:topic).permit(:name, :description, :public)
     end
     
     def authorize_user
-     unless current_user.admin?
-       flash[:alert] = "You must be an admin to do that."
+     unless current_user.moderator?
+       #flash[:alert] = "You must be an admin to do that."
        redirect_to topics_path
      end
     end
     def moderator
-     unless current_user.admin?
-       flash[:alert] = "You must be an admin to do that."
-       redirect_to topics_path
+     unless current_user.moderator?
+       #flash[:alert] = "You must be an admin to do that."
+       render :edit
+       #redirect_to topics_path
      end
     end
 end

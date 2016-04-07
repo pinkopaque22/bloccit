@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   #comment this method out when nesting to have topics redirect to show, not index
-  before_action :require_sign_in, except: [:index, :show]
-  before_action :authorize_user, except: [:index, :show, :new, :create]
+  before_action :require_sign_in, except: :show
+  before_action :authorize_user, except: [:show, :new, :create]
+ 
   
   def index
     @posts = Post.all
@@ -12,15 +13,18 @@ class PostsController < ApplicationController
   def new
     @topic = Topic.find(params[:topic_id])
     @post = Post.new
-   
+    
   end
   def create
+
     @topic = Topic.find(params[:topic_id])
     @post = @topic.posts.build(post_params)
+    
     @post.user = current_user
     if @post.save
        flash[:notice] = "Your post was saved."
        redirect_to [@post.topic, @post]
+       
     else
         #logger.info "THERE WAS AN ERROR@@@@@@@@@"
         #logger.info @post.inspect
@@ -31,6 +35,7 @@ class PostsController < ApplicationController
   def edit
     @post = Post.find(params[:id])
     @post.user = current_user
+    user_is_authorized_for_post?(post)
         #redirect_to(topics_path)
         #redirect_to @post.topic
         render :edit 
@@ -42,12 +47,13 @@ class PostsController < ApplicationController
      if @post.save
         flash[:notice] = "Post was updated."
         redirect_to [@post.topic, @post]
+        render :edit
        
      else
         flash.now[:alert] = "There was an error saving the post. Please try again."
         logger.info "THERE WAS AN ERROR@@@@@@@@@"
         logger.info @post.inspect
-        render :edit
+        render :edit 
      end
   end
   def destroy
@@ -57,23 +63,27 @@ class PostsController < ApplicationController
         redirect_to @post.topic
      else
         flash.now[:alert] = "There was an error deleting the post."
-        render :show
+        render :show 
      end
   end
-  private
+private
    def post_params
      params.require(:post).permit(:title, :body)
    end
+  
    def authorize_user
        action = params[:action]
      post = Post.find(params[:id])
-     unless (action == "edit" || action== "update") && (current_user == post.user || current_user.admin? || current_user.moderator?)
+     
+     unless (action == "edit" || action == "update") && (current_user == post.user || current_user.admin? || current_user.moderator?)
        flash[:alert] = "You must be an admin to do that."
        redirect_to [post.topic, post]
+       #redirect_to topics_path
      end
      unless action == "destroy" && (current_user == post.user || current_user.admin?)
        flash[:alert] = "You must be an admin to do that."
        redirect_to [post.topic, post]
+       #redirect_to topics_path
      end
    end
 end
