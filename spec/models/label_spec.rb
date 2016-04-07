@@ -1,5 +1,7 @@
 require 'rails_helper'
-include RandomData
+require 'spec_helper'
+require 'factory_girl_rails'
+#include 'RandomData'
 RSpec.describe Label, type: :model do
   let(:topic) { create(:topic) }
   let(:user) { create(:user) }

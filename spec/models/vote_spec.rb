@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'spec_helper'
+require 'factory_girl_rails'
 include RandomData
 RSpec.describe Vote, type: :model do
    let(:topic) { create(:topic) }
