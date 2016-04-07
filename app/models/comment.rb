@@ -1,6 +1,7 @@
 class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :commentable, polymorphic: true
+  #has_many :commentable, foreign_key: :commentable_id, dependent: :destroy
 
   validates :body, length: { minimum: 5 }, presence: true
   validates :user, presence: true
@@ -12,8 +13,8 @@ class Comment < ActiveRecord::Base
    private
  
    def send_favorite_emails
-     post.favorites.each do |favorite|
-       FavoriteMailer.new_comment(favorite.user, post, self).deliver_now
+     commentable.favorites.each do |favorite|
+       FavoriteMailer.new_comment(user, post, comment).deliver_now
      end
    end
 end
