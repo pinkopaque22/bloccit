@@ -1,9 +1,8 @@
-FactoryGirl.define do
-
 require 'rails_helper'
 require 'spec_helper'
 require 'factory_girl_rails'
 include  RandomData
+FactoryGirl.define do
    pw = RandomData.random_sentence
 
    factory :user do
