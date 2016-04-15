@@ -1,12 +1,9 @@
-require 'rails_helper'
-require 'spec_helper'
-require 'factory_girl_rails'
-include RandomData
 
+include RandomData
 FactoryGirl.define do
-  
-    factory :comments do
+    factory :comment do
     body RandomData.random_paragraph
-    #user_id 
+    user
+    commentable {create :post}
    end
  end

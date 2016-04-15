@@ -8,6 +8,10 @@ class CommentsController < ApplicationController
     @comment = Comment.new
    end
    
+   def show
+     @comment = Comment.find(params[:my_commentable_id])
+   end
+   
   def create
      @post = Post.find(params[:post_id])
      @comment = @post.comments.new(comment_params)
@@ -21,12 +25,13 @@ class CommentsController < ApplicationController
      respond_to do |format|
       format.html
       format.js
+      
      end
   end
 
    def destroy
      @post = Post.find(params[:post_id])
-     @comment = @post.comments.find(params[:id])
+     @comment = @post.comments.find(params[:my_commentable_id])
      if @comment.destroy
        flash[:notice] = "Comment was deleted."
      else
@@ -35,6 +40,7 @@ class CommentsController < ApplicationController
      respond_to do |format|
        format.html
        format.js
+       
      end
    end
  
@@ -45,7 +51,7 @@ class CommentsController < ApplicationController
    end
    
    def authorize_user
-     comment = Comment.find(params[:id])
+     comment = Comment.find(params[:my_commentable_id])
      unless current_user == comment.user || current_user.admin?
        flash[:alert] = "You do not have permission to delete a comment."
        redirect_to [comment.commentable.topic, comment.commentable]

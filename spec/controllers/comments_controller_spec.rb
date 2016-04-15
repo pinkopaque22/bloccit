@@ -1,12 +1,11 @@
 require 'rails_helper'
-include SessionsHelper
-include RandomData
 RSpec.describe CommentsController, type: :controller do
+
    let(:my_topic) { create(:topic) }
    let(:my_user) { create(:user) }
    let(:other_user) { create(:user) }
    let(:my_post) { create(:post, topic: my_topic, user: my_user) }
-   let(:my_comment) { Comment.create!(body: 'Comment Body', commentable: my_post, user: my_user) } 
+   let(:my_commentable_id) {create(:comment) }
  
 
     context "guest" do
@@ -19,7 +18,7 @@ RSpec.describe CommentsController, type: :controller do
  
      describe "DELETE destroy" do
        it "redirects the user to the sign in view" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
          expect(response).to redirect_to(new_session_path)
        end
      end
@@ -43,7 +42,7 @@ RSpec.describe CommentsController, type: :controller do
  
      describe "DELETE destroy" do
        it "redirects the user to the posts show view" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
          expect(response).to redirect_to([my_topic, my_post])
        end
      end
@@ -67,13 +66,13 @@ RSpec.describe CommentsController, type: :controller do
  
      describe "DELETE destroy" do
        it "deletes the comment" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
          count = Comment.where({id: my_comment.id}).count
          expect(count).to eq 0
        end
  
        it "returns http success" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
          expect(response).to have_http_status(:success)
        end
      end
@@ -98,13 +97,13 @@ RSpec.describe CommentsController, type: :controller do
  
      describe "DELETE destroy" do
        it "deletes the comment" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
-         count = Comment.where({id: my_comment.id}).count
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
+         count = Comment.where({id: my_commentable_id}).count
          expect(count).to eq 0
        end
  
        it "redirects to the post show view" do
-         delete :destroy, format: :js, post_id: my_post.id, id: my_comment.id
+         delete :destroy, format: :js, post_id: my_post.id, id: my_commentable_id
          expect(response).to have_http_status(:success)
        end
      end

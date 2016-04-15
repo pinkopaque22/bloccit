@@ -1,5 +1,6 @@
 class FavoritesController < ApplicationController
   before_action :require_sign_in
+  
   def create
     post = Post.find(params[:post_id])
        favorite = current_user.favorites.build(post: post)
@@ -10,6 +11,7 @@ class FavoritesController < ApplicationController
     end
     redirect_to [post.topic, post]
   end
+  
   def destroy
     post = Post.find(params[:post_id])
        favorite = current_user.favorites.find(params[:id])
