@@ -1,5 +1,6 @@
-include  RandomData
-
+require 'rails_helper'
+require 'spec_helper'
+require 'factory_girl_rails'
 RSpec.describe Comment, type: :model do
   let(:topic) { create(:topic) }
   let(:user) { create(:user) }

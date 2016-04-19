@@ -1,6 +1,4 @@
-require 'rails_helper'
-require 'spec_helper'
-require 'factory_girl_rails'
+
 include RandomData
 FactoryGirl.define do
    factory :topic do

@@ -1,4 +1,12 @@
-   <small>
+ <small>
        <%= pluralize(@user.posts.count, 'post') %>,
-       <div class='js-comments-count'><%= pluralize(@user.comments.count, 'comment') %></div>
+       <%= pluralize(@user.comments.count, 'comment') %>
    </small>
+
+    <%= if user.posts.favorite && user.name.posts %>
+         <% "{user.name, user.gravatar, user.upvotes}" %>
+      else
+    <%= @user.name posts.empty? %>
+         <% "{user.name} has not submitted any posts yet." %>
+      <% end %>
+      posts.all
