@@ -3,15 +3,15 @@
        <%= pluralize(@user.comments.count, 'comment') %>
    </small>
 
-    <%= if user.posts.favorite && user.name.posts %>
-         <% "{user.name, user.gravatar, user.upvotes}" %>
-         <%= render partial: 'votes/voter', locals: { post: @post } %>
-         <%= render partial: 'favorites/favorite', locals: { post: @post } %>
-
-      else
-    <%= @user.name posts.empty? %>
-         <% "{user.name} has not submitted any posts yet." %>
-                 <%= render @post.comments %>
-
-      <% end %>
-      posts.all
+    <% if @user.favorites.any? %>
+    
+       <ul> <% @user.favorites.each do |f| %>
+            <li><%= image_tag(f.post.user.avatar_url(48), class: "gravatar") %><<%= f.post.title %>
+                <%= image_tag(f.post.user.avatar_url(48), class: "gravatar") %><%= f.post.points %></li>
+        <% end %>
+       </ul>
+       
+     <% else %>
+         <%= "#{@user.name} has not submitted any favorites yet." %>
+    <% end %>
+      
