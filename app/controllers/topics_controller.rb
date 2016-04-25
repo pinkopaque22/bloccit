@@ -1,7 +1,12 @@
 class TopicsController < ApplicationController
  before_action :require_sign_in, except: [:index, :show]
+<<<<<<< Updated upstream
  before_action :authorize_user, except: [:index, :show]
  #before_action :moderator, except: [:index, :show]
+=======
+ before_action :authorize_create_delete, only: [:destroy, :new, :create]
+ before_action :authorize_update_edit, only: [:edit, :update] 
+>>>>>>> Stashed changes
     def index 
         @topics = Topic.all
     end
@@ -66,11 +71,25 @@ class TopicsController < ApplicationController
        redirect_to topics_path
      end
     end
+<<<<<<< Updated upstream
     def moderator
      unless current_user.moderator?
        #flash[:alert] = "You must be an admin to do that."
        render :edit
        #redirect_to topics_path
      end
+=======
+    def authorize_create_delete
+      unless current_user.admin?
+       flash[:alert] = "You must be an admin to do that."
+       redirect_to topics_path
+      end
+    end
+    def authorize_update_edit
+      unless current_user.moderator? || current_user.admin?
+       flash[:alert] = "You must be an admin to do that."
+       redirect_to topics_path
+      end
+>>>>>>> Stashed changes
     end
 end
