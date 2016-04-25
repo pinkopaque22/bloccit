@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160415192733) do
+=======
+ActiveRecord::Schema.define(version: 20160309001615) do
+>>>>>>> checkpoint-41-Comments
 
   create_table "advertisements", force: :cascade do |t|
     t.string   "title"
