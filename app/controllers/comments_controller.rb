@@ -3,28 +3,39 @@ class CommentsController < ApplicationController
   before_action :authorize_user, only: [:destroy]
  
    def create
-     @post = Post.find(params[:post_id])
-     comment = @post.comments.new(comment_params)
+     if params[:post_id]
+       @commentable = Post.find(params[:post_id])
+     else
+       @commentable = Topic.find(params[:topic_id])
+     end
+     comment = @commentable.comments.new(comment_params)
      comment.user = current_user
- 
+   
      if comment.save
        flash[:notice] = "Comment saved successfully."
-       redirect_to [@post.topic, @post]
      else
        flash[:alert] = "Comment failed to save."
-       redirect_to [@post.topic, @post]
+     end
+     if @commentable.is_a? Post
+       redirect_to [@commentable.topic, @commentable]
+     else
+       redirect_to @commentable
      end
    end
+   
    def destroy
-     @post = Post.find(params[:post_id])
-     comment = @post.comments.find(params[:id])
- 
-     if comment.destroy
+     @comment = Comment.find(params[:id])
+     commentable = @comment.commentable
+     if @comment.destroy
        flash[:notice] = "Comment was deleted."
-       redirect_to [@post.topic, @post]
+        #redirect_to  [(@comment.commentable.is_a? Post ? @comment.commentable.topic : nil), @comment.commentable]
      else
        flash[:alert] = "Comment couldn't be deleted. Try again."
-       redirect_to [@post.topic, @post]
+     end
+     if commentable.is_a? Post
+      redirect_to [commentable.topic, commentable]
+     else
+      redirect_to commentable
      end
    end
  
@@ -33,11 +44,18 @@ class CommentsController < ApplicationController
    def comment_params
      params.require(:comment).permit(:body)
    end
+     
    def authorize_user
-     comment = Comment.find(params[:id])
-     unless current_user == comment.user || current_user.admin?
+     @comment = Comment.find(params[:id])
+     unless current_user == @comment.user || current_user.admin?
        flash[:alert] = "You do not have permission to delete a comment."
-       redirect_to [comment.post.topic, comment.post]
+       if params[:post_id]
+         @commentable = Post.find(params[:post_id])
+           redirect_to [@commentable.topic, @commentable]
+       else
+         @commentable = Topic.find(params[:topic_id])
+           redirect_to @commentable
+       end
      end
    end
 end
