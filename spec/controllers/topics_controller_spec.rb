@@ -4,9 +4,15 @@ include SessionsHelper
 
 RSpec.describe TopicsController, type: :controller do
   let (:my_topic) { Topic.create!(name:  RandomData.random_sentence, description:   RandomData.random_paragraph) }
+  let(:my_private_topic) { create(:topic, public: false) }
 
   context "guest" do
     describe "GET index" do
+      it "does not include private topics in @topics" do
+         get :index
+         expect(assigns(:topics)).not_to include(my_private_topic)
+      end
+       
       it "returns http success" do
         get :index
         expect(response).to have_http_status(:success)
