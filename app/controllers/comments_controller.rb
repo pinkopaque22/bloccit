@@ -17,6 +17,9 @@ class CommentsController < ApplicationController
        format.js
      end
    end
+   def show
+     @comment = Comment.find(params[:id])
+   end
    def destroy
      @post = Post.find(params[:post_id])
      @comment = @post.comments.find(params[:id])
