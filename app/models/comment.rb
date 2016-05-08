@@ -2,7 +2,6 @@ class Comment < ActiveRecord::Base
   
   belongs_to :commentable, polymorphic: true
   belongs_to :user
-  belongs_to :commentable, polymorphic: true
   #has_many :commentable, foreign_key: :commentable_id, dependent: :destroy
 
   validates :body, length: { minimum: 5 }, presence: true
