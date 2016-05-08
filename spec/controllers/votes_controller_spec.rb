@@ -37,7 +37,6 @@ RSpec.describe VotesController, type: :controller do
          expect(user_post.votes.count).to eq(votes + 1)
        end
        it "the users second vote does not increase the number of votes" do
-         post :up_vote, post_id: user_post.id
          votes = user_post.votes.count
          post :up_vote, post_id: user_post.id
          expect(user_post.votes.count).to eq(votes)
@@ -66,7 +65,6 @@ RSpec.describe VotesController, type: :controller do
          expect(user_post.votes.count).to eq(votes + 1)
        end
        it "the users second vote does not increase the number of votes" do
-         post :down_vote, post_id: user_post.id
          votes = user_post.votes.count
          post :down_vote, post_id: user_post.id
          expect(user_post.votes.count).to eq(votes)
