@@ -5,19 +5,18 @@ RSpec.describe Post, type: :model do
   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:post) { topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user) }
 
-       it { is_expected.to have_many(:labelings) }
-       it { is_expected.to have_many(:labels).through(:labelings) }
-       it { is_expected.to have_many(:comments) }
-       it { is_expected.to have_many(:votes) }
-       it { is_expected.to belong_to(:topic) }
-       it { is_expected.to belong_to(:user) }
-       it { is_expected.to validate_presence_of(:title) }
-       it { is_expected.to validate_presence_of(:body) }
-       it { is_expected.to validate_presence_of(:topic) }
-       it { is_expected.to validate_presence_of(:user) }
-
-       it { is_expected.to validate_length_of(:title).is_at_least(5) }
-       it { is_expected.to validate_length_of(:body).is_at_least(20) }
+  it { is_expected.to have_many(:labelings) }
+  it { is_expected.to have_many(:labels).through(:labelings) }
+  it { is_expected.to have_many(:comments) }
+  it { is_expected.to have_many(:votes) }
+  it { is_expected.to belong_to(:topic) }
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to validate_presence_of(:title) }
+  it { is_expected.to validate_presence_of(:body) }
+  it { is_expected.to validate_presence_of(:topic) }
+  it { is_expected.to validate_presence_of(:user) }
+  it { is_expected.to validate_length_of(:title).is_at_least(5) }
+  it { is_expected.to validate_length_of(:body).is_at_least(20) }
        
     context "attributes" do
         it "should respond to title" do
@@ -48,6 +47,20 @@ RSpec.describe Post, type: :model do
        it "returns the sum of all down and up votes" do
          expect( post.points ).to eq(@up_votes - @down_votes)
        end
+    end
+    describe "#create_vote" do
+        it "sets the post up_votes to 1" do
+            post = topic.posts.create(title: RandomData.random_sentence, body: RandomData.random_sentence, user: user)
+            expect(post.up_votes).to eq (1)
+        end
+        it "calls #create_vote when a post is created" do
+            post = topic.posts.new(title: RandomData.random_sentence, body: RandomData.random_sentence, user: user)
+            expect(post).to receive(:create_vote)
+            post.save
+        end
+        it "associated the vote with the owner of the post"do 
+            expect(post.votes.first.user).to eq(post.user)
+        end
     end
     describe "#update_rank" do
         it "calculates the correct rank" do
