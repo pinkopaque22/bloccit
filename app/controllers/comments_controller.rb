@@ -9,12 +9,10 @@ class CommentsController < ApplicationController
      @new_comment = Comment.new
      if @comment.save
        flash[:notice] = "Comment saved successfully."
+       redirect_to [@post.topic, @post]
      else
        flash[:alert] = "Comment failed to save."
-     end
-     respond_to do |format|
-       format.html
-       format.js
+       redirect_to [@post.topic, @post]
      end
    end
    def show
@@ -25,16 +23,13 @@ class CommentsController < ApplicationController
      @comment = @post.comments.find(params[:id])
      if @comment.destroy
        flash[:notice] = "Comment was deleted."
+       redirect_to [@post.topic, @post]
      else
        flash[:alert] = "Comment couldn't be deleted. Try again."
-     end
-     respond_to do |format|
-       format.html
-       format.js
+       redirect_to [@post.topic, @post]
      end
    end
- 
-   private
+ private
  
    def comment_params
      params.require(:comment).permit(:body)
@@ -43,9 +38,6 @@ class CommentsController < ApplicationController
      @comment = Comment.find(params[:id])
      unless current_user == @comment.user || current_user.admin?
        flash[:alert] = "You do not have permission to delete a comment."
-<<<<<<< HEAD
-       redirect_to [comment.commentable.topic, comment.commentable]
-=======
        if params[:post_id]
          @commentable = Post.find(params[:post_id])
            redirect_to [@commentable.topic, @commentable]
@@ -53,8 +45,6 @@ class CommentsController < ApplicationController
          @commentable = Topic.find(params[:topic_id])
            redirect_to @commentable
        end
->>>>>>> checkpoint-43-voting
      end
    end
-
 end
